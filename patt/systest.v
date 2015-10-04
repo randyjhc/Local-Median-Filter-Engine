@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 `define CYCLE      8				//-- clock period
 `define End_CYCLE  10000000			//-- time to end the simulation
-`define PAT        "./pattern1.dat"	//-- input image pattern
-`define EXP        "./golden1.dat"	//-- golden image file
+`define PAT        "../patt/pattern1.dat"	//-- input image pattern
+`define EXP        "../patt/golden1.dat"	//-- golden image file
 
 module systest;
 
@@ -61,7 +61,7 @@ always begin #(`CYCLE/2) clk = ~clk; end
 //-- dump waveform
 initial begin
 	$dumpfile("top.vcd");
-	$dumpvars;
+	$dumpvars(1, systest);
 
 	out_f = $fopen("out.dat");
 	if (out_f == 0) begin

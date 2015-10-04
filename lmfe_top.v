@@ -35,44 +35,46 @@ wire			write_enable;
 wire			sort_enable;
 
 lmfe_filter_ctrl i_lmfe_filter_ctrl (
-// input port
-	.clk(clk),
-	.RST(reset),
-	.IEN(in_en),
-	.DIN(Din),
-	.Q(sram_out),
-	.MED(sort_median),
-// output port
-	.A(sram_address),
-	.D(sram_in),	
-	.CE(chip_enable),
-	.WE(write_enable),
-	.SE(sort_enable),
-	.INS(sort_insert),
-	.DEL(sort_delete),
-	.DOUT(Dout),
-	.OV(out_valid),
-	.BZ(busy)
+	//-- input port
+	.clk	(clk),
+	.RST	(reset),
+	.IEN	(in_en),
+	.DIN	(Din),
+	.Q		(sram_out),
+	.MED	(sort_median),
+	//-- output port
+	.A		(sram_address),
+	.D		(sram_in),	
+	.CE		(chip_enable),
+	.WE		(write_enable),
+	.SE		(sort_enable),
+	.INS	(sort_insert),
+	.DEL	(sort_delete),
+	.DOUT	(Dout),
+	.OV		(out_valid),
+	.BZ		(busy)
 );
 
 lmfe_med49 i_lmfe_med49 (
-// input port
-	.clk(clk),
-	.RST(reset),
-	.SEN(sort_enable),
-	.INS(sort_insert),
-	.DEL(sort_delete),
-// output port
-	.MED(sort_median)
+	//-- input port
+	.clk	(clk),
+	.RST	(reset),
+	.SEN	(sort_enable),
+	.INS	(sort_insert),
+	.DEL	(sort_delete),
+	//-- output port
+	.MED	(sort_median)
 );
 
 sram_1024x8_t13 i_ram0 (
-	.Q (sram_out),
-	.CLK (clk),
-	.CEN (chip_enable),
-	.WEN (write_enable),
-	.A (sram_address),
-	.D (sram_in)
+	//-- input port
+	.CLK	(clk),
+	.CEN	(chip_enable),
+	.WEN	(write_enable),
+	.A		(sram_address),
+	.D		(sram_in),
+	//-- output port
+	.Q		(sram_out)
 );
 
 endmodule

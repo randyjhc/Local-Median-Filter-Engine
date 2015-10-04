@@ -1,4 +1,19 @@
-module MEDIAN49 (clk, RST, SEN, INS, DEL, MED);
+//-----------------------------------------------
+//--- File Name: lmfe_med49.v
+//--- Author: randyjhc
+//--- Date: 2015-10-04
+//--- Description: The core for median computation
+//-----------------------------------------------
+module lmfe_med49 (
+	clk,
+	RST,
+	SEN,
+	INS,
+	DEL,
+	MED
+);
+
+//-- I/O declaration
 input  clk;
 input  RST;
 input  SEN;
@@ -6,6 +21,7 @@ input  [7:0] INS;
 input  [7:0] DEL;
 output [7:0] MED;
 
+//--- reg and wire
 wire [7:0] out00, out01, out02, out03, out04, out05, out06, out07, out08, out09,
 	out10, out11, out12, out13, out14, out15, out16, out17, out18, out19,
 	out20, out21, out22, out23, out24, out25, out26, out27, out28, out29,

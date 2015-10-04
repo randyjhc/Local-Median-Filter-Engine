@@ -1,21 +1,47 @@
-module FILTER_CTRL (clk, RST, IEN, DIN, Q, MED, A, D, CE, WE, SE, INS, DEL, DOUT, OV, BZ);
-input  clk;
-input  RST;
-input  IEN;
-input [7:0] DIN;
-input [7:0] Q;
-input [7:0] MED;
-output reg [9:0] A;
-output reg [7:0] D;
-output reg CE;
-output reg WE;
-output reg SE;
-output reg [7:0] INS;
-output reg [7:0] DEL;
-output reg [7:0] DOUT;
-output reg OV;
-output reg BZ;
+//-----------------------------------------------
+//--- File Name: lmfe_filter_ctrl.v
+//--- Author: randyjhc
+//--- Date: 2015-10-04
+//--- Description: Controller for the LMFE engine
+//-----------------------------------------------
+module lmfe_filter_ctrl (
+	clk,
+	RST,
+	IEN,
+	DIN,
+	Q,
+	MED,
+	A,
+	D,
+	CE,
+	WE,
+	SE,
+	INS,
+	DEL,
+	DOUT,
+	OV,
+	BZ
+);
 
+//-- I/O declaration
+input			clk;
+input			RST;
+input			IEN;
+input	[7:0]	DIN;
+input	[7:0]	Q;
+input	[7:0]	MED;
+output	[9:0]	A;
+output	[7:0]	D;
+output			CE;
+output			WE;
+output			SE;
+output	[7:0]	INS;
+output	[7:0]	DEL;
+output	[7:0]	DOUT;
+output			OV;
+output			BZ;
+
+//-- parameters
 parameter ST_IDL = 4'h0;
 parameter ST_W7L = 4'h1;
 parameter ST_R49 = 4'h2;
@@ -28,36 +54,47 @@ parameter ST_W1LU = 4'h8;
 parameter ST_R7DU = 4'h9;
 parameter ST_END = 4'ha;
 
-reg [7:0] i;
-reg [7:0] n_DOUT;
-reg n_BZ;
-reg n_OV;
-reg [9:0] n_A;
-reg [7:0] n_D;
-reg n_CE;
-reg n_WE;
-reg n_SE;
-reg [7:0] n_INS;
-reg [7:0] n_DEL;
-reg [3:0] state, n_state;
-reg [9:0] wa, n_wa;
-reg [9:0] wc, n_wc;
-reg [5:0] rc, n_rc;
-reg [7:0] lc, n_lc;
-reg [13:0] pc, n_pc;
-reg [7:0] px, n_px;
-reg [7:0] py, n_py;
-reg [7:0] mv [0:48];
-reg [7:0] n_mv [0:48];
-reg [7:0] mx [0:48];
-reg [7:0] my [0:48];
-reg [7:0] ix [0:48];
-reg [7:0] iy [0:48];
-reg noob [0:48];
-reg [7:0] med_buf [0:126];
-reg [7:0] n_med_buf [0:126];
+//-- reg and wire
+reg		[9:0]	A;
+reg		[7:0]	D;
+reg				CE;
+reg				WE;
+reg				SE;
+reg		[7:0]	INS;
+reg		[7:0]	DEL;
+reg		[7:0]	DOUT;
+reg				OV;
+reg				BZ;
+reg		[7:0]	i;
+reg		[7:0]	n_DOUT;
+reg				n_BZ;
+reg				n_OV;
+reg		[9:0]	n_A;
+reg		[7:0]	n_D;
+reg				n_CE;
+reg				n_WE;
+reg				n_SE;
+reg		[7:0]	n_INS;
+reg		[7:0]	n_DEL;
+reg		[3:0]	state, n_state;
+reg		[9:0]	wa, n_wa;
+reg		[9:0]	wc, n_wc;
+reg		[5:0]	rc, n_rc;
+reg		[7:0]	lc, n_lc;
+reg		[13:0]	pc, n_pc;
+reg		[7:0]	px, n_px;
+reg		[7:0]	py, n_py;
+reg		[7:0]	mv[0:48];
+reg		[7:0]	n_mv[0:48];
+reg		[7:0]	mx[0:48];
+reg		[7:0]	my[0:48];
+reg		[7:0]	ix[0:48];
+reg		[7:0]	iy[0:48];
+reg				noob[0:48];
+reg		[7:0]	med_buf[0:126];
+reg		[7:0]	n_med_buf[0:126];
 
-// state register
+//-- state register
 always @ (posedge clk, posedge RST) begin
 	if (RST) begin
 		state <= ST_IDL;
@@ -66,7 +103,7 @@ always @ (posedge clk, posedge RST) begin
 	end
 end
 
-// next state logic
+//-- next state logic
 always @ * begin
 	n_state = state;
 	case (state)
@@ -159,7 +196,7 @@ always @ * begin
 	endcase
 end
 
-// output register
+//-- output register
 always @ (posedge clk, posedge RST) begin
 	if (RST) begin
 		DOUT <= 1'b0;
@@ -186,7 +223,7 @@ always @ (posedge clk, posedge RST) begin
 	end
 end
 
-// output logic
+//-- output logic
 always @ * begin
 	n_DOUT = DOUT;
 	n_BZ   = BZ;
@@ -350,8 +387,8 @@ always @ * begin
 		end
 	endcase
 end
-///////////////////////////////////////////////////////////
-// internal register
+
+//-- internal register
 always @ (posedge clk, posedge RST) begin
 	if (RST) begin
 		wa <= 0;
@@ -394,8 +431,7 @@ always @ (posedge clk, posedge RST) begin
 	end
 end
 
-///////////////////////////////////////////////////////////
-// internal logic
+//-- internal logic
 always @ * begin
 	n_wa = wa;
 	n_wc = wc;

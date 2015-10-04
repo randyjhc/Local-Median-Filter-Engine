@@ -1,1 +1,4 @@
 mem/sram_1024x8_t13.v
+sim/top.vcd
+sim/top.sim
+*.dat
